@@ -23,3 +23,13 @@ streamlit run app.py
 ```
 
 Enter your Groq API key in the interface, upload PDFs, and chat.
+
+## Architecture
+
+| Object | Role | Description |
+|---|---|---|
+| `retriever` | Vector store interface | Wraps Chroma to expose a standardized search interface used by the rest of the pipeline |
+| `history_aware_retriever` | Context-aware retrieval | Reformulates the user question into a standalone query using chat history before searching |
+| `question_answer_chain` | Answer generation | Stuffs retrieved chunks into the prompt context and generates a grounded response via the LLM |
+| `rag_chain` | Full RAG pipeline | Connects the retriever and the answer chain into a single end-to-end RAG object |
+| `conversation_rag_chain` | Stateful conversation | Wraps the RAG chain with per-session message history persistence |
